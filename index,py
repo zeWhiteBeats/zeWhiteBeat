@@ -1,0 +1,62 @@
+import random
+
+def craps():
+    point = 0
+    while True:
+        val = shoot()
+        # print "  Dice roll:", val
+        if point == 0:
+            # First move
+            if val == 7 or val == 11:
+                return True
+            if val == 2 or val == 3 or val == 12:
+                return False
+            point = val
+        else:
+            # 2..N move
+            if val == 7:
+                return False
+            if val == point:
+                return True
+
+def move_roulette1():
+    val = random.randint(1,38)
+    if val == 37 or val == 38: 
+        return False
+    return val % 2 != 0
+    
+def move_roulette2(num):
+    val = random.randint(1,38)
+    return val == num
+    
+def move_roulette3(num1, num2):
+    val = random.randint(1,38)
+    return val == num1 or val == num2
+
+def lotto(values):
+    balls = range(1,46)
+    b1 = balls.pop(random.randint(0, len(balls)-1))
+    b2 = balls.pop(random.randint(0, len(balls)-1))
+    b3 = balls.pop(random.randint(0, len(balls)-1))
+    b4 = balls.pop(random.randint(0, len(balls)-1))
+    b5 = balls.pop(random.randint(0, len(balls)-1))
+    b6 = balls.pop(random.randint(0, len(balls)-1))
+    s = [b1,b2,b3,b4,b5,b6]
+
+    res = list(set(s) & set(values))
+    return len(res)
+    
+money_total = 100
+steps = 100
+win = 0
+loss = 0
+for p in range(steps):
+    bet = 1
+    step = move_roulette1()
+    if step is True:
+        money_total += bet
+        win += 1
+    else:
+        money_total -= bet
+        loss += 1
+    print "Step", p+1, "Bet", bet, "Result", step, "Win", win, "Loss", loss, "Money total", money_tota
